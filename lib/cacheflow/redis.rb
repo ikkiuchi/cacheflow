@@ -19,6 +19,9 @@ module Cacheflow
 
         commands = []
         event.payload[:commands].map do |op, *args|
+          if args[2]&.[]('ActiveSupport::Cache::Entry')
+            args[2] = 'ActiveSupport::Cache::Entry'
+          end
           commands << "#{op.to_s.upcase} #{args.join(" ")}".strip
         end
 
